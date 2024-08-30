@@ -102,7 +102,7 @@ function Header({ children }) {
                 Richard Davis
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                CEO / Co-Founder
+                Librarian
               </MDTypography>
             </MDBox>
           </Grid>
