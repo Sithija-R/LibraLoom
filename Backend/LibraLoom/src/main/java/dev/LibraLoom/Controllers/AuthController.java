@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import dev.LibraLoom.AppConfiguration.JwtProvider;
 import dev.LibraLoom.Exception.UserException;
+import dev.LibraLoom.Models.Library;
 import dev.LibraLoom.Models.Users;
+import dev.LibraLoom.Repositories.LibraryRepo;
 import dev.LibraLoom.Repositories.UserRepo;
 import dev.LibraLoom.Response.AuthResponse;
 import dev.LibraLoom.Services.UserService;
@@ -35,25 +37,38 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private LibraryRepo libraryRepo;
 
-    // create account
+
+    
+    // create account -> params(email,password,name)
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody Users reqUser) throws UserException {
+
 
         String email = reqUser.getEmail();
         String password = reqUser.getPassword();
         String fullName = reqUser.getName();
+        String role = reqUser.getRole();
+
 
         if ((userService.findUserByEmail(email) != null)) {
             throw new UserException("Email is already exist");
         }
+
+        Library library = libraryRepo.findById("library01")
+                .orElseThrow(() -> new RuntimeException("Library not found"));
 
         String encodedPassword = passwordEncoder.encode(password);
         Users user = new Users();
         user.setEmail(email);
         user.setPassword(encodedPassword);
         user.setName(fullName);
+        user.setRole(role);
         userRepo.save(user);
+        library.getListofUsers().add(user);
+        libraryRepo.save(library);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,7 +78,7 @@ public class AuthController {
         return new ResponseEntity<AuthResponse>(response, HttpStatus.CREATED);
     }
 
-    // login reqUser
+    // login reqUser -> params(email,password+)
     @PostMapping("/login")
     public ResponseEntity<?> userLogin(@RequestBody Users user) throws UserException {
 

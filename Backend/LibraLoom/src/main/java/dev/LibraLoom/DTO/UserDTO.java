@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.LibraLoom.Models.Book;
+import lombok.Data;
 
+@Data
 public class UserDTO {
     
 
