@@ -17,5 +17,5 @@ public class Library {
     private String location;
 
     private List<Book> listofBooks = new ArrayList<>();
-    private List<User> listofUsers = new ArrayList<>();
+    private List<Users> listofUsers = new ArrayList<>();
 }
