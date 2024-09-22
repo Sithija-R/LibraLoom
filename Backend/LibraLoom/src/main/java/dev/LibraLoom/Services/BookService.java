@@ -40,17 +40,14 @@ public class BookService {
 
     // add book
     public Book addBook(Book book) throws UserException {
-        // Check if a book with the same ISBN already exists
+        
         Book existingBook = bookRepo.findByIsbn(book.getIsbn());
         if (existingBook != null) {
             throw new UserException("A book with this ISBN already exists.");
         }
-
-        // Fetch the library
         Library library = libraryRepo.findById("library01")
                 .orElseThrow(() -> new RuntimeException("Library not found"));
 
-        // Create and set properties for the new book
         Book newBook = new Book();
         newBook.setIsbn(book.getIsbn());
         newBook.setTitle(book.getTitle());
@@ -59,13 +56,9 @@ public class BookService {
         newBook.setAvailable(true);
         newBook.setBorrower(null);
 
-        // Save the new book to the repository
-
-        // Update the library's book lists
         library.getListofBooks().add(newBook);
         library.getListofAvailableBooks().add(newBook);
 
-        // Save the updated library document
         bookRepo.insert(newBook);
         libraryRepo.save(library);
 

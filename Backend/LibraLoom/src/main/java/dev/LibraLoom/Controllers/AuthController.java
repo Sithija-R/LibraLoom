@@ -40,18 +40,14 @@ public class AuthController {
     @Autowired
     private LibraryRepo libraryRepo;
 
-
-    
     // create account -> params(email,password,name)
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody Users reqUser) throws UserException {
-
 
         String email = reqUser.getEmail();
         String password = reqUser.getPassword();
         String fullName = reqUser.getName();
         String role = reqUser.getRole();
-
 
         if ((userService.findUserByEmail(email) != null)) {
             throw new UserException("Email is already exist");
