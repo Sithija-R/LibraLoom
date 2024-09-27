@@ -38,6 +38,14 @@ public class BookService {
         return book;
     }
 
+    // get available books
+    public List<Book> findAvailableBooks(){
+        Library library = libraryRepo.findById("library01")
+        .orElseThrow(() -> new RuntimeException("Library not found"));
+
+        return library.getListofAvailableBooks();
+    }
+
     // add book
     public Book addBook(Book book) throws UserException {
         

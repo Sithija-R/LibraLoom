@@ -35,7 +35,7 @@ public class UserService {
 
     // find by id
     public Users findUserByID(String userId) {
-        return userRepo.findById(userId).orElseThrow(() -> new RuntimeException("Library not found"));
+        return userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // find by email

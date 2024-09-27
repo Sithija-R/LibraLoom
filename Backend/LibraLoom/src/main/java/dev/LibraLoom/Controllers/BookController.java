@@ -28,10 +28,15 @@ public class BookController {
     // get all book
     @GetMapping("/get/all")
     public ResponseEntity<List<Book>> getAllBooks() throws UserException {
-
+        System.out.println("hit");
         return new ResponseEntity<>(bookService.getAll(), HttpStatus.OK);
     }
 
+    //
+    @GetMapping("/get/available")
+    public ResponseEntity<List<Book>> getAvailableBook(){
+      return new ResponseEntity<>(bookService.findAvailableBooks(),HttpStatus.OK);
+    }
 
     // get book by isbn
     @GetMapping("/get/{isbn}")

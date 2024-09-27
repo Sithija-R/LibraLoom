@@ -44,6 +44,8 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody Users reqUser) throws UserException {
 
+ 
+
         String email = reqUser.getEmail();
         String password = reqUser.getPassword();
         String fullName = reqUser.getName();
