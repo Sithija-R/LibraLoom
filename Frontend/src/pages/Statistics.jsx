@@ -155,11 +155,11 @@ function Dashboard() {
                 lg: "2",
                 xs: "1",
                 fontSize: 13,
-                backgroundColor: "rgba(255, 0, 0, 0.9)", // Red with transparency
-                // border: "2px solid darkred", // Dark red border
-                color: "white", // White text color for contrast
+                backgroundColor: "rgba(255, 0, 0, 0.9)", 
+               
+                color: "white",
                 "&:hover": {
-                  backgroundColor: "rgba(255, 0, 0, 0.8)", // Darker red on hover
+                  backgroundColor: "rgba(255, 0, 0, 0.8)", 
                 },
               }}
               variant="contained"

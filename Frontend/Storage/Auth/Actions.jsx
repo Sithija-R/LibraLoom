@@ -142,7 +142,7 @@ export const googleLoginhandler= (googleId,fullName,email,profilePic)=>async(dis
   //update user profile
   export const updateUserProfile =(userData)=>async(dispatch)=>{
     try {
-        const {data} = await api.post(`api/user/profile/update`,userData);
+        const {data} = await api.post(`api/user/profile/edit`,userData);
 
         dispatch({type:UPDATE_USER_SUCCESS,payload:data})
         Swal.fire({

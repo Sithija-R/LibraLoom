@@ -18,6 +18,7 @@ export const HomeSection = () => {
         </Grid2>
         <Grid2 className="h-[99vh] " size={{ xs: 12, sm: 12, md: 12, lg: 9.5 }}>
           <Dashboard />
+          
         </Grid2>
       </Grid2>
     </div>

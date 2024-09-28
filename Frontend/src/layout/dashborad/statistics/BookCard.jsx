@@ -43,9 +43,9 @@ const handleBorrow=()=>{
 
   else {
     const transactionData={ userId:auth.user?.userId,isbn:item?.isbn}
-    // Dispatch the borrowBook action if no incomplete transaction exists
+    
+    handleClose(); 
     dispatch(borrowBook(transactionData));
-    handleClose(); // Close the modal or popup (if that’s what `handleClose` does)
   }
 
   
