@@ -1,4 +1,5 @@
 import {
+  BORROW_BOOK_SUCCESS,
     COMMENT_BOOK_FAILURE,
     COMMENT_BOOK_SUCCESS,
     CREATE_BOOK_FAILURE,
@@ -22,6 +23,7 @@ import {
     LIKE_BOOK_FAILURE,
     LIKE_BOOK_REQUEST,
     LIKE_BOOK_SUCCESS,
+    RETURN_BOOK_SUCCESS,
     SUGGESTIONS_SUCCESS,
 
   } from "./ActionTypes";
@@ -32,7 +34,7 @@ import {
     error: null,
     books: [],
     availableBooks:[],
-  
+   
     searchBook: null,
     counter: null,
     bookSearchResult: null,
@@ -55,13 +57,11 @@ import {
       case COMMENT_BOOK_FAILURE:
         return { ...state, loading: false, error: action.payload };
   
-      case CREATE_BOOK_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          error: null,
-          books: [action.payload, ...state.books],
-        };
+      case BORROW_BOOK_SUCCESS:
+        return { ...state, loading: false, error: null, borrowBook: action.payload}
+
+      case RETURN_BOOK_SUCCESS:
+        return { ...state, loading: false, error: null, returnBook: action.payload}
   
       case GET_ALL_BOOK_SUCCESS:
         return { ...state, loading: false, error: null, books: action.payload };

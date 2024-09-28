@@ -48,7 +48,7 @@ public class TransactionService {
         }
 
         Transaction transaction = new Transaction();
-        transaction.setBookId(book.getBookID());
+        transaction.setBook(book);
         transaction.setUserId(userId);
         transaction.setBorrowDate(LocalDate.now());
         transaction.setDueDate(LocalDate.now().plusWeeks(2));
@@ -63,7 +63,9 @@ public class TransactionService {
         libraryRepo.save(library);
         book.setAvailable(false);
         bookRepo.save(book);
-        user.getBorroweBooks().add(book);
+
+        user.setIncompleteTransaction(transaction);
+        user.setBorroweBook(book);
         userRepo.save(user);
 
         return transaction;
@@ -85,7 +87,8 @@ public class TransactionService {
             throw new UserException("This book has already been returned.");
         }
 
-        user.getBorroweBooks().remove(book);
+        user.setBorroweBook(null);
+        user.setIncompleteTransaction(null);
         userRepo.save(user);
         transaction.setCompleted(true);
         transaction.setReturnDate(LocalDate.now());

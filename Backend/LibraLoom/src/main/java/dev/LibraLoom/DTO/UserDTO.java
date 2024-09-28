@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.LibraLoom.Models.Book;
+import dev.LibraLoom.Models.Transaction;
 import lombok.Data;
 
 @Data
@@ -14,6 +15,7 @@ private String userId;
 private String name;
 private String email;
 
-private List<Book> borroweBooks= new ArrayList<>();
+private Book borrowedBook;
+private Transaction incompleteTransaction;
 private List<Book> reservedBook = new ArrayList<>();
 }

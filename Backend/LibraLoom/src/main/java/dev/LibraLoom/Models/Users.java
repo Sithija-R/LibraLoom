@@ -21,8 +21,8 @@ private String email;
 private String password;
 private String role;
 
-@DocumentReference
-private List<Book> borroweBooks= new ArrayList<>();
+private Transaction incompleteTransaction;
+private Book borroweBook;
 @DocumentReference
 private List<Book> reservedBook = new ArrayList<>();
 }

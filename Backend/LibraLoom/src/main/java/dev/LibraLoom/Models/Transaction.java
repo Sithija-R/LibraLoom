@@ -15,7 +15,7 @@ public class Transaction {
     private String transactionId;
 
     private String userId;
-    private String bookId;
+    private Book book;
     private LocalDate borrowDate;
     private LocalDate dueDate;
     private LocalDate returnDate;

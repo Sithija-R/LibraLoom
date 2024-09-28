@@ -70,7 +70,7 @@ public class TransactionServiceTest {
 
         transaction = new Transaction();
         transaction.setTransactionId("transaction01");
-        transaction.setBookId(book.getBookID());
+        transaction.setBook(book);
         transaction.setUserId(user.getUserId());
         transaction.setBorrowDate(LocalDate.now());
         transaction.setDueDate(LocalDate.now().plusWeeks(2));
