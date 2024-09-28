@@ -14,6 +14,8 @@ public class Transaction {
     @MongoId
     private String transactionId;
 
+    private String uniqueId;
+
     private String userId;
     private Book book;
     private LocalDate borrowDate;

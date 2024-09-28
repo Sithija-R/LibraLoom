@@ -45,6 +45,13 @@ public class BookController {
         return new ResponseEntity<>(bookService.getByISBN(isbn), HttpStatus.OK);
     }
 
+    //search book
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<Book>> searchBook(@PathVariable String keyword){
+        
+  
+        return new ResponseEntity<>(bookService.searchBooks(keyword),HttpStatus.OK);
+    }
     
     // add book
     @PostMapping("/add")

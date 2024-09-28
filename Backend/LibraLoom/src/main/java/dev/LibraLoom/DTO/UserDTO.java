@@ -14,7 +14,7 @@ public class UserDTO {
 private String userId;
 private String name;
 private String email;
-
+private String role;
 private Book borrowedBook;
 private Transaction incompleteTransaction;
 private List<Book> reservedBook = new ArrayList<>();

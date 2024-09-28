@@ -8,4 +8,5 @@ import dev.LibraLoom.Models.Transaction;
 @Repository
 public interface TransactionRepo extends MongoRepository<Transaction,String>{
     
+    public Transaction findByUniqueId(String uniqueId);
 }

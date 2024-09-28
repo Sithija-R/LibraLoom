@@ -11,6 +11,7 @@ public static UserDTO mapToUserDTO(Users user){
     userDTO.setUserId(user.getUserId());
     userDTO.setEmail(user.getEmail());
     userDTO.setName(user.getName());
+    userDTO.setRole(user.getRole());
     userDTO.setBorrowedBook(user.getBorroweBook());
     userDTO.setReservedBook(user.getReservedBook());
     userDTO.setIncompleteTransaction(user.getIncompleteTransaction());

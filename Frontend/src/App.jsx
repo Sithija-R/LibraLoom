@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import {  Route, Routes, useNavigate } from "react-router-dom";
 
 import useAppInitialLoad from "./hooks/useAppInitialLoad";
-
-import { Authentication } from "./mainLayout/Authentication";
 import { HomeSection } from "./mainLayout/HomeSection";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../Storage/Auth/Actions";
+import { Authentication } from "./mainLayout/Authentication";
 
 const App = () => {
   useAppInitialLoad();

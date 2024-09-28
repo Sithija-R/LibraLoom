@@ -13,7 +13,7 @@ function Card({ className, cardTitle ,Icon, title1,total }) {
         <div className="flex items-start">
          <h2 className="text-lg font-semibold">{title1}</h2>
         </div>
-        <h2 className=" text-slate-800 dark:text-slate-100 mb-2">Due date {total}</h2>
+        <h2 className=" text-slate-800 dark:text-slate-100 mb-2">{total}</h2>
       </div>
     </div>
   );

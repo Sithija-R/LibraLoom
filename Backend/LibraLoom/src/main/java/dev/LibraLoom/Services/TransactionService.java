@@ -1,6 +1,7 @@
 package dev.LibraLoom.Services;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,41 +37,68 @@ public class TransactionService {
     @Autowired
     private UserRepo userRepo;
 
-    // borrow book
-    public Transaction borrowBook(String isbn, String userId) throws UserException {
-        Book book = bookService.getByISBN(isbn);
-        Library library = libraryRepo.findById("library01")
-                .orElseThrow(() -> new RuntimeException("Library not found"));
-        Users user = userService.findUserByID(userId);
 
-        if (!book.isAvailable()) {
-            throw new UserException("The book is not available for borrowing.");
-        }
+//find by uniqueId
+public Transaction findByUniqueId(String key) throws UserException {
+    Transaction transaction = transactionRepo.findByUniqueId(key);
 
-        Transaction transaction = new Transaction();
-        transaction.setBook(book);
-        transaction.setUserId(userId);
-        transaction.setBorrowDate(LocalDate.now());
-        transaction.setDueDate(LocalDate.now().plusWeeks(2));
-        transaction.setReturnDate(null);
-        transaction.setLateDates(0);
-        transaction.setCompleted(false);
-        transactionRepo.save(transaction);
-
-        library.getListofAvailableBooks().remove(book);
-        library.getListofTransactions().add(transaction);
-
-        libraryRepo.save(library);
-        book.setAvailable(false);
-        bookRepo.save(book);
-
-        user.setIncompleteTransaction(transaction);
-        user.setBorroweBook(book);
-        userRepo.save(user);
-
-        return transaction;
-
+    if (transaction == null) {
+        throw new UserException("Transaction with ID " + key + " not found.");
     }
+
+    return transaction;
+}
+
+
+    // borrow book
+   public Transaction borrowBook(String isbn, String userId) throws UserException {
+    Book book = bookService.getByISBN(isbn);
+    Library library = libraryRepo.findById("library01")
+            .orElseThrow(() -> new RuntimeException("Library not found"));
+    Users user = userService.findUserByID(userId);
+
+    if (!book.isAvailable()) {
+        throw new UserException("The book is not available for borrowing.");
+    }
+
+    Transaction transaction = new Transaction();
+    
+    // Generate unique ID and check if it's already in the database
+    String uniqueId = generateUniqueTransactionId();
+    while (transactionRepo.existsById(uniqueId)) { // Check if ID already exists
+        uniqueId = generateUniqueTransactionId(); // Regenerate if necessary
+    }
+    transaction.setUniqueId(uniqueId); // Set the unique ID to the transaction
+    
+    transaction.setBook(book);
+    transaction.setUserId(userId);
+    transaction.setBorrowDate(LocalDate.now());
+    transaction.setDueDate(LocalDate.now().plusWeeks(2));
+    transaction.setReturnDate(null);
+    transaction.setLateDates(0);
+    transaction.setCompleted(false);
+    transactionRepo.save(transaction);
+
+    library.getListofAvailableBooks().remove(book);
+    library.getListofTransactions().add(transaction);
+
+    libraryRepo.save(library);
+    book.setAvailable(false);
+    bookRepo.save(book);
+
+    user.setIncompleteTransaction(transaction);
+    user.setBorroweBook(book);
+    userRepo.save(user);
+
+    return transaction;
+}
+
+// Method to generate a unique transaction ID (TR + 4 random digits)
+private String generateUniqueTransactionId() {
+    Random random = new Random();
+    int number = random.nextInt(9000) + 1000; // Generate a 4-digit number between 1000 and 9999
+    return "TR" + number; // Concatenate with "TR"
+}
 
     // Return a book
     public Transaction returnBook(String transactionId, String isbn, String userId) throws UserException {

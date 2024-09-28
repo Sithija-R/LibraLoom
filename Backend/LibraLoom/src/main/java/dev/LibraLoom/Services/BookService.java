@@ -1,6 +1,9 @@
 package dev.LibraLoom.Services;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,4 +130,18 @@ public class BookService {
         libraryRepo.save(library);
 
     }
+
+    //search books
+   public List<Book> searchBooks(String keyword) {
+    // Fetch books by title and author
+    List<Book> list1 = bookRepo.findByTitleContainingIgnoreCase(keyword);
+    List<Book> list2 = bookRepo.findByAuthorContainingIgnoreCase(keyword);
+
+    // Use a Set to avoid duplicates
+    Set<Book> bookSet = new HashSet<>(list1);  // Add books from the first list
+    bookSet.addAll(list2);  // Add books from the second list
+
+    // Convert the set back to a list
+    return new ArrayList<>(bookSet);
+}
 }

@@ -4,7 +4,7 @@ import { logOut, updateUserProfile } from "../../Storage/Auth/Actions";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+
 
 export const Navbar = () => {
   const dispatch = useDispatch();

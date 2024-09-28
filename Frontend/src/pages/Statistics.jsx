@@ -10,15 +10,22 @@ import Total from "../layout/dashborad/statistics/Total";
 import { BookCard } from "../layout/dashborad/statistics/BookCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getAllBooks, returnBook } from "../../Storage/Book/Action";
+import { getAllBooks, returnBook, searchBook } from "../../Storage/Book/Action";
 import { getUserProfile } from "../../Storage/Auth/Actions";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import Swal from "sweetalert2";
-
+import SearchIcon from "@mui/icons-material/Search";
 function Dashboard() {
   const { data } = useMyContext();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
+  const { auth, book } = useSelector((store) => store);
+
+  const [keyword, setKeyWord] = useState(null);
+
+  const handleSearch = () => {
+    dispatch(searchBook(keyword));
+  };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -37,13 +44,11 @@ function Dashboard() {
     p: 4,
   };
 
-  const { auth, book } = useSelector((store) => store);
-
-  console.log(auth);
   useEffect(() => {
     dispatch(getAllBooks());
     dispatch(getUserProfile(jwt));
-  }, [book.borrowBook,book.returnBook]);
+    dispatch(searchBook(keyword));
+  }, [book.borrowBook, book.returnBook]);
 
   const handleReturn = () => {
     const data = {
@@ -56,37 +61,60 @@ function Dashboard() {
     Swal.fire({
       title: "Success!",
       text: "successfully returned.",
-      icon: "success"
+      icon: "success",
     });
-
   };
-  const { totalUsers, totalBooks, totalAuthors } = useBorrowingNormalizer(data);
 
   return (
     <main>
-      <div className="px-4 h-[92vh] mt-10 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+      <div className="px-4 h-[92vh]  sm:px-6 lg:px-8 pt-5 w-full max-w-9xl mx-auto">
+        <div className="mb-2 flex items-center justify-end ">
+          <input
+            type="text"
+            className="w-80 rounded-3xl"
+            onChange={(event) => {
+              setKeyWord(event.target.value); // Set the keyword state
+              handleSearch(); // Trigger search on every change
+            }}
+          />
+
+          <SearchIcon
+            onClick={handleSearch}
+            className="text-slate-400 cursor-pointer hover:text-blue-600"
+            sx={{ fontSize: 50 }}
+          />
+        </div>
         <WelcomeBanner />
 
         <div className="grid grid-cols-12 gap-6">
           <div
             className={`flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700`}
           >
-            <div className="p-5">
+            <div className="py-2 px-5">
               <header className="flex justify-between items-start mb-2">
                 <img src={Icon1} width="20" height="20" alt="Icon 02" />
                 <h2 className="font-semibold">Borrowed Book</h2>
               </header>
-              {auth.user?.incompleteTransaction?(
-                  <div className="flex justify-between">
+              {auth.user?.incompleteTransaction ? (
+                <div className="flex justify-between">
                   <div className="items-start">
                     <h2 className="text-lg font-semibold">
                       {auth.user?.incompleteTransaction?.book.title}
                     </h2>
                     <p className="text-3d ">
-                      {auth.user?.incompleteTransaction?.book.author}
+                      by {auth.user?.incompleteTransaction?.book.author}
+                    </p>
+                    <p>
+                      <span className="text-blue-600 font-semibold">
+                        Transaction :{" "}
+                      </span>
+                      {auth.user?.incompleteTransaction?.uniqueId}
                     </p>
                     <h2 className=" text-slate-800 dark:text-slate-100 mb-2">
-                      Due date {auth.user?.incompleteTransaction?.dueDate}
+                      <span className="text-blue-600 font-semibold">
+                        Due to :{" "}
+                      </span>{" "}
+                      {auth.user?.incompleteTransaction?.dueDate}
                     </h2>
                   </div>
                   <div className="flex justify-end items-center">
@@ -108,22 +136,38 @@ function Dashboard() {
                     </Button>
                   </div>
                 </div>
-              ):(<h2>No borrowed book</h2>)}
-            
+              ) : (
+                <h2>No borrowed book</h2>
+              )}
             </div>
           </div>
-          <Total Icon={Icon2} title1="කියවීම මිනිසා සම්පුර්ණ කරයි." total={totalBooks} />
-          <Total Icon={Icon3} title1="Authors Featured" total={totalAuthors} />
+          <Total Icon={Icon2} title1="ihihrb" total="56" />
+          <Total Icon={Icon3} title1="Authors Featured" total="55" />
 
           {/* Display total of x */}
           {/* <Total Icon={Icon1} title1={auth.user?.borroweBooks.title} total={totalUsers} cardTitle={"Borrowed Books"}/> */}
         </div>
-        <h2 className="mt-2 font-semibold text-lg">All Books</h2>
-        <div className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
-          {book.books?.map((item) => (
-            <BookCard item={item} />
-          ))}
-        </div>
+        {keyword? (
+          <div>
+            <h2 className="mt-2 font-semibold text-lg">Search Results..</h2>
+            <div className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
+              {book.bookSearchResult?(
+                book.bookSearchResult.map((item) => (
+                  <BookCard item={item} />
+                ))
+              ):("No books available!")}
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h2 className="mt-2 font-semibold text-lg">All Books</h2>
+            <div className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
+              {book.books?.map((item) => (
+                <BookCard item={item} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <Modal
@@ -155,11 +199,11 @@ function Dashboard() {
                 lg: "2",
                 xs: "1",
                 fontSize: 13,
-                backgroundColor: "rgba(255, 0, 0, 0.9)", 
-               
+                backgroundColor: "rgba(255, 0, 0, 0.9)",
+
                 color: "white",
                 "&:hover": {
-                  backgroundColor: "rgba(255, 0, 0, 0.8)", 
+                  backgroundColor: "rgba(255, 0, 0, 0.8)",
                 },
               }}
               variant="contained"

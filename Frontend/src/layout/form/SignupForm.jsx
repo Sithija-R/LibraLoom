@@ -34,7 +34,7 @@ const dispatch = useDispatch();
       name: "",
       email: "",
       password: "",
-      role: "USER",
+      role: "ADMIN",
     },
 
     validationSchema: donorValidationSchema,
