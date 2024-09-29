@@ -21,9 +21,9 @@ export const HomeSection = () => {
 
 
 
-{/* 
 
-<Grid2
+
+{/* <Grid2
           container
           className="w-full flex justify-between bg-slate-0 bg-slate-100 "
           spacing={9}
@@ -71,7 +71,7 @@ export const HomeSection = () => {
 
 
 
-      {auth.user.role === "ADMIN" ? (
+      {auth.user?.role ==="ADMIN"? (
         <Grid2
           container
           className="w-full flex justify-between bg-slate-0 bg-slate-100 "

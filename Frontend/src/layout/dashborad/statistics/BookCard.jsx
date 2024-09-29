@@ -62,7 +62,7 @@ export const BookCard = ({ item }) => {
         </h3>
       </div>
       <div className="flex items-center ">
-        {auth.user.role === "ADMIN" ? (
+        {auth.user?.role === "ADMIN" ? (
           item.available ? (
             <h2 className="text-lime-600 pr-8">available</h2>
           ) : (

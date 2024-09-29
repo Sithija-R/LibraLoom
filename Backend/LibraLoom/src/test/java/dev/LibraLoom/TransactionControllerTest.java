@@ -62,16 +62,17 @@ public class TransactionControllerTest {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setIsbn("1234567890");
         transactionDTO.setUserId("user01");
-
+    
         when(transactionService.borrowBook(any(String.class), any(String.class)))
                 .thenThrow(new UserException("User not found"));
-
+    
         mockMvc.perform(post("/api/transaction/borrow")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"isbn\": \"1234567890\", \"userId\": \"user01\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("User not found"));
+                .andExpect(content().json("{\"message\":\"User not found\",\"status\":false}")); // Adjusted to match the actual response format
     }
+    
 
     // Positive test case: Successful book return
     @Test
@@ -109,6 +110,7 @@ public class TransactionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"transactionId\": \"trans01\", \"isbn\": \"1234567890\", \"userId\": \"user01\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Transaction not found"));
+                .andExpect(content().json("{\"message\":\"Transaction not found\",\"status\":false}"));
+                
     }
 }

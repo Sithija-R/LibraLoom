@@ -141,8 +141,8 @@ function Dashboard() {
               )}
             </div>
           </div>
-          <Total Icon={Icon2} title1="ihihrb" total="56" />
-          <Total Icon={Icon3} title1="Authors Featured" total="55" />
+          <Total Icon={Icon2} title1="A room without books is like a body without a soul." total="Marcus Tullius Cicero" />
+          <Total Icon={Icon3} title1="There is no friend as loyal as a book." total="Ernest Hemingway" />
 
 
         </div>

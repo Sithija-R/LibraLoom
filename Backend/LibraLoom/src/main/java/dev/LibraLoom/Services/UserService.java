@@ -68,7 +68,7 @@ public class UserService {
     }
 
     //edit profile
-    public Users updateUser(Users requester, String jwt ){
+    public Users updateUser(Users requester, String jwt ) throws RuntimeException{
        
         Users user = findByJwtToken(jwt);
      

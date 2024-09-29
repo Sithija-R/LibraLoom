@@ -91,7 +91,7 @@ const LoginForm = () => {
 
           <div className="flex flex-wrap justify-between h-20">
             <p className="text-black">Don,t have an account?</p>
-            <Link className="text-blue-700 hover:underline" to="/signup">
+            <Link className="text-blue-700 hover:underline" to="/Authentication/signup">
             register?
             </Link>
           </div>

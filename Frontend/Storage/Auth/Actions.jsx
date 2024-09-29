@@ -37,6 +37,7 @@ const successAlert = Swal.mixin({
 });
 
 //signup
+//signup
 export const register = (registerData) => async (dispatch) => {
   console.log(registerData);
   try {
@@ -45,14 +46,20 @@ export const register = (registerData) => async (dispatch) => {
       registerData
     );
 
-    successAlert.fire({
+    // Show success alert immediately
+    Swal.fire({
+      title: "Signup failedSigned up successfully",
+      text: "",
       icon: "success",
-      title: "Signed up successfully",
     });
 
+    // Store JWT after 2 seconds
     if (data.jwt) {
-      localStorage.setItem("jwt", data.jwt);
+      setTimeout(() => {
+        localStorage.setItem("jwt", data.jwt);
+      }, 5000); // 2000 milliseconds = 2 seconds
     }
+
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
   } catch (error) {
     console.log("error", error);
@@ -60,6 +67,7 @@ export const register = (registerData) => async (dispatch) => {
       type: REGISTER_USER_FAILURE,
       payload: error.response.data.message,
     });
+
     Swal.fire({
       title: "Signup failed!",
       text: error.response.data.message,
@@ -67,6 +75,7 @@ export const register = (registerData) => async (dispatch) => {
     });
   }
 };
+
 
 //login
 export const userLogin = (loginData) => async (dispatch) => {

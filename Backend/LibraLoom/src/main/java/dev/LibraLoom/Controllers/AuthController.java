@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import dev.LibraLoom.Models.Users;
 import dev.LibraLoom.Repositories.LibraryRepo;
 import dev.LibraLoom.Repositories.UserRepo;
 import dev.LibraLoom.Response.AuthResponse;
+import dev.LibraLoom.Response.ErrorResponse;
 import dev.LibraLoom.Services.UserService;
 
 @RestController
@@ -37,21 +39,18 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
+
     @Autowired
     private LibraryRepo libraryRepo;
 
-    // create account -> params(email,password,name)
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody Users reqUser) throws UserException {
-
- 
-
         String email = reqUser.getEmail();
         String password = reqUser.getPassword();
         String fullName = reqUser.getName();
         String role = reqUser.getRole();
 
-        if ((userService.findUserByEmail(email) != null)) {
+        if (userService.findUserByEmail(email) != null) {
             throw new UserException("Email is already exist");
         }
 
@@ -73,13 +72,11 @@ public class AuthController {
         String token = jwtProvider.generateToken(authentication);
         AuthResponse response = new AuthResponse(token, true);
 
-        return new ResponseEntity<AuthResponse>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // login reqUser -> params(email,password+)
     @PostMapping("/login")
-    public ResponseEntity<?> userLogin(@RequestBody Users user) throws UserException {
-
+    public ResponseEntity<AuthResponse> userLogin(@RequestBody Users user) throws UserException {
         try {
             String email = user.getEmail();
             String password = user.getPassword();
@@ -90,16 +87,13 @@ public class AuthController {
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (BadCredentialsException e) {
-            return new ResponseEntity<>(new UserException("Invalid Email or Password"), HttpStatus.UNAUTHORIZED);
+            throw new UserException("Invalid Email or Password");
         } catch (Exception e) {
-            return new ResponseEntity<>(new UserException("Invalid Email or Password"),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new UserException("Internal server error occurred");
         }
-
     }
 
     private Authentication authenticate(String email, String password) {
-
         UserDetails userDetails = userService.findbyemail(email);
         if (userDetails == null) {
             throw new BadCredentialsException("Invalid Email or Password");
@@ -110,4 +104,9 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ErrorResponse> handleUserException(UserException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), false);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

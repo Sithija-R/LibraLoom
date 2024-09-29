@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import {  Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import useAppInitialLoad from "./hooks/useAppInitialLoad";
 import { HomeSection } from "./mainLayout/HomeSection";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../Storage/Auth/Actions";
 import { Authentication } from "./mainLayout/Authentication";
+import LandingPage from "./Landinglayout/LandingPage";
 
 const App = () => {
   useAppInitialLoad();
@@ -22,19 +23,22 @@ const App = () => {
     }
   }, [auth.jwt]);
 
-
   return (
     <>
       <Routes>
         <Route
           path="/*"
-          element={auth.user ? <HomeSection /> : <Authentication />}
+          element={auth.user?<HomeSection/>:<LandingPage />}
         />
-         {/* <Route
+
+        <Route
+          path="/Authentication/*"
+          element={<Authentication/>}
+        />
+        {/* <Route
           path="/*"
           element={ <HomeSection /> }
         /> */}
-
 
         {/* <Route path='/*'
           // element={

@@ -106,13 +106,14 @@ const dispatch = useDispatch();
               }}
               variant="contained"
               type="submit"
+              id="signup-button"
             >
               Register
             </Button>
             <p className="text-center mt-2 text-black">
               Already have an account?{" "}
               <span
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/Authentication/signin")}
                 className="text-blue-500 cursor-pointer"
               >
                 {" "}

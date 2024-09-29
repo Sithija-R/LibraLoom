@@ -79,7 +79,7 @@ public class UserController {
 
     // edit profile
     @PostMapping("profile/edit")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody Users userData, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<UserDTO> updateUser(@RequestBody Users userData, @RequestHeader("Authorization") String jwt) throws RuntimeException{
 
         Users updatedUser = userService.updateUser(userData, jwt);
         UserDTO updatedUserDTO = UserDTOmapper.mapToUserDTO(updatedUser);

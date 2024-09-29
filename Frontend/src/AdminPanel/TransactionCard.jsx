@@ -2,7 +2,7 @@ import React from 'react'
 
 const TransactionCard = ({item}) => {
   return (
-    <div className='w-full py-2 px-8 border-b-2 border-b-slate-300  h-[20vh]'>
+    <div className='w-full py-2 px-8 border-b-2 border-b-slate-300  min-h-[20vh] max-h-[30vh]'>
 
         <h2 className='font-semibold' ><span className='text-blue-600 text-lg '>Transaction </span>{item?.uniqueId}</h2>
         <div className='px-4'>
