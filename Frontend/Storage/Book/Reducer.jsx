@@ -17,12 +17,16 @@ import {
   FIND_BOOK_BY_ID_REQUEST,
   FIND_BOOK_BY_ID_SUCCESS,
   GET_ALL_BOOK_SUCCESS,
+  GET_ALL_TRANSACTION_FAILURE,
+  GET_ALL_TRANSACTION_SUCCESS,
   GET_AVAILABLE_BOOK_SUCCESS,
   GET_LIKED_BOOK_FAILURE,
   GET_LIKED_BOOK_REQUEST,
   LIKE_BOOK_FAILURE,
   LIKE_BOOK_REQUEST,
   RETURN_BOOK_SUCCESS,
+  SEARCH_TRANSACTION_FAILURE,
+  SEARCH_TRANSACTION_SUCCESS,
 } from "./ActionTypes";
 
 const initialState = {
@@ -35,6 +39,8 @@ const initialState = {
   searchBook: null,
   counter: null,
   bookSearchResult: null,
+  transactions:null,
+  searchTransaction:null,
 };
 export const bookReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,6 +60,8 @@ export const bookReducer = (state = initialState, action) => {
     case LIKE_BOOK_FAILURE:
     case FIND_BOOK_BY_ID_FAILURE:
     case COMMENT_BOOK_FAILURE:
+      case GET_ALL_TRANSACTION_FAILURE:
+        case SEARCH_TRANSACTION_FAILURE:
       return { ...state, loading: false, error: action.payload };
 
     case ADD_BOOK_SUCCESS:
@@ -67,6 +75,23 @@ export const bookReducer = (state = initialState, action) => {
         error: null,
         borrowBook: action.payload,
       };
+
+
+      case GET_ALL_TRANSACTION_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          transactions: action.payload,
+        };
+
+        case SEARCH_TRANSACTION_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            error: null,
+            searchTransaction: action.payload,
+          };
 
     case RETURN_BOOK_SUCCESS:
       return {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
 import {
   addBook,
   deleteBook,
@@ -10,12 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
-import { getUserProfile } from "../../Storage/Auth/Actions";
 import Swal from "sweetalert2";
 import EditBook from "./EditBook";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const BookManage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { auth, book } = useSelector((store) => store);
 
   const [keyword, setKeyWord] = useState("");
@@ -101,14 +105,21 @@ const BookManage = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Book Management</h2>
+      <div onClick={()=>navigate(-1)} className="flex w-20 cursor-pointer space-x-2 items-center">
+
+      <ArrowBackIcon/>
+      <h2 className="font-semibold text-lg">Back</h2>
+      </div>
+      <div className="flex justify-between mt-2">
+
+      <h2 className="text-2xl font-bold mb-4 text-blue-700">Book Management</h2>
       <div className="mb-2 flex items-center justify-end ">
         <input
           type="text"
           className="w-80 rounded-3xl"
           onChange={(event) => {
-            setKeyWord(event.target.value); // Set the keyword state
-            handleSearch(); // Trigger search on every change
+            setKeyWord(event.target.value); 
+            handleSearch();
           }}
         />
         <SearchIcon
@@ -116,6 +127,7 @@ const BookManage = () => {
           className="text-slate-400 cursor-pointer hover:text-blue-600"
           sx={{ fontSize: 50 }}
         />
+      </div>
       </div>
 
       {/* Add New Book Section */}

@@ -28,7 +28,7 @@ public class BookController {
     // get all book
     @GetMapping("/get/all")
     public ResponseEntity<List<Book>> getAllBooks() throws UserException {
-        System.out.println("hit");
+      
         return new ResponseEntity<>(bookService.getAll(), HttpStatus.OK);
     }
 

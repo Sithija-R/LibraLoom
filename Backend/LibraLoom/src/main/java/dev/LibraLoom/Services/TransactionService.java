@@ -1,6 +1,7 @@
 package dev.LibraLoom.Services;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,9 @@ public class TransactionService {
     @Autowired
     private UserRepo userRepo;
 
-
+public List<Transaction> getAll(){
+   return transactionRepo.findAll();
+}
 //find by uniqueId
 public Transaction findByUniqueId(String key) throws UserException {
     Transaction transaction = transactionRepo.findByUniqueId(key);

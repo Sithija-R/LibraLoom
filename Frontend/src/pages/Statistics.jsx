@@ -16,7 +16,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 function Dashboard() {
-  const { data } = useMyContext();
+
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth, book } = useSelector((store) => store);
@@ -144,8 +144,7 @@ function Dashboard() {
           <Total Icon={Icon2} title1="ihihrb" total="56" />
           <Total Icon={Icon3} title1="Authors Featured" total="55" />
 
-          {/* Display total of x */}
-          {/* <Total Icon={Icon1} title1={auth.user?.borroweBooks.title} total={totalUsers} cardTitle={"Borrowed Books"}/> */}
+
         </div>
         {keyword? (
           <div>

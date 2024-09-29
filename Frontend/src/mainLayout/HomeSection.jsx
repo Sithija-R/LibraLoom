@@ -16,6 +16,61 @@ export const HomeSection = () => {
 
   return (
     <div>
+
+
+
+
+
+{/* 
+
+<Grid2
+          container
+          className="w-full flex justify-between bg-slate-0 bg-slate-100 "
+          spacing={9}
+        >
+          <Grid2 size={{ xs: 0, sm: 0, md: 0, lg: 2.5 }}>
+            <Hidden lgDown>
+             <AdminNavbar/>
+            </Hidden>
+          </Grid2>
+          <Grid2
+            className="h-[99vh] "
+            size={{ xs: 12, sm: 12, md: 12, lg: 9.5 }}
+          >
+           <Routes>
+           <Route path="/*" element={<AdminPanel />} />  
+           <Route path="/Admin" element={<AdminPanel />} />  
+           <Route path="/Admin/UserMangemnt" element={<UserManage />} />  
+          <Route path="/Admin/BookManagemnt" element={<BookManage />} /> 
+          <Route path="/Admin/Transaction" element={<TransactionManage />} />  
+           </Routes>
+          </Grid2>
+        </Grid2> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {auth.user.role === "ADMIN" ? (
         <Grid2
           container

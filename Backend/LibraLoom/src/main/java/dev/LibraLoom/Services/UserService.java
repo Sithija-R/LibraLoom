@@ -42,6 +42,10 @@ public class UserService {
     public Users findUserByEmail(String email) {
         return userRepo.findByEmail(email);
     }
+//find by name
+    public List<Users> findUserByName(String name) {
+        return userRepo.findByNameContainingIgnoreCase(name);
+    }
 
     // find by jwt token
     public Users findByJwtToken(String jwt) {
@@ -96,7 +100,7 @@ public class UserService {
         Users user = findUserByID(userId);
         Users reqUser = findByJwtToken(jwt);
 
-        if (reqUser.getRole().equals("LIBRARIAN") || reqUser.equals(user)) {
+        if (reqUser.getRole().equals("ADMIN") || reqUser.equals(user)) {
             // Find the library
             Library library = libraryRepo.findById("library01")
                     .orElseThrow(() -> new RuntimeException("Library not found"));

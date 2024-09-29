@@ -1,5 +1,8 @@
 package dev.LibraLoom.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +35,22 @@ public class TransactionController {
     @Autowired
     TransactionService transactionService;
     
-
-
+    @GetMapping("/get/all")
+    public ResponseEntity<List<Transaction>> getAll() throws UserException{
+        
+        System.out.println("hit ");
+        return new ResponseEntity<>(transactionService.getAll(),HttpStatus.OK);
+    }
+    
     //get by uniqueId
-    @GetMapping("/get/{uniqueId}")
-    public ResponseEntity<Transaction> getByUniqueId(@PathVariable String uniqueId) throws UserException{
-        return new ResponseEntity<>(transactionService.findByUniqueId(uniqueId),HttpStatus.OK);
+    @GetMapping("/search/{uniqueId}")
+    public ResponseEntity<List<Transaction>> getByUniqueId(@PathVariable String uniqueId) throws UserException{
+        System.out.println(uniqueId);
+       Transaction transaction =transactionService.findByUniqueId(uniqueId);
+        List<Transaction> transactions =new ArrayList<>();
+        transactions.add(transaction);
+       
+        return new ResponseEntity<>(transactions,HttpStatus.OK);
     }
     
     // borrow book

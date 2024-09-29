@@ -1,5 +1,5 @@
 import { api } from "../../src/ApiConfig/Apiconfig";
-import { ADD_BOOK_FAILURE, ADD_BOOK_SUCCESS, BORROW_BOOK_FAILURE, BORROW_BOOK_SUCCESS, DELETE_BOOK_FAILURE, DELETE_BOOK_SUCCESS, EDIT_BOOK_FAILURE, EDIT_BOOK_SUCCESS, FIND_BOOK_BY_CONTENT_FAILURE, FIND_BOOK_BY_CONTENT_SUCCESS, GET_ALL_BOOK_FAILURE, GET_ALL_BOOK_SUCCESS, GET_AVAILABLE_BOOK_FAILURE, GET_AVAILABLE_BOOK_SUCCESS, RETURN_BOOK_FAILURE, RETURN_BOOK_SUCCESS } from "./ActionTypes";
+import { ADD_BOOK_FAILURE, ADD_BOOK_SUCCESS, BORROW_BOOK_FAILURE, BORROW_BOOK_SUCCESS, DELETE_BOOK_FAILURE, DELETE_BOOK_SUCCESS, EDIT_BOOK_FAILURE, EDIT_BOOK_SUCCESS, FIND_BOOK_BY_CONTENT_FAILURE, FIND_BOOK_BY_CONTENT_SUCCESS, GET_ALL_BOOK_FAILURE, GET_ALL_BOOK_SUCCESS, GET_ALL_TRANSACTION_FAILURE, GET_ALL_TRANSACTION_SUCCESS, GET_AVAILABLE_BOOK_FAILURE, GET_AVAILABLE_BOOK_SUCCESS, RETURN_BOOK_FAILURE, RETURN_BOOK_SUCCESS, SEARCH_TRANSACTION_FAILURE, SEARCH_TRANSACTION_SUCCESS } from "./ActionTypes";
 
 
 export const getAllBooks=()=>async(dispatch)=>{
@@ -156,3 +156,38 @@ export const deleteBook=(isbn)=>async(dispatch)=>{
     }
 
 }
+
+
+
+export const getTransaction = () => async (dispatch) => {
+    try {
+        console.log("trans 01")
+        const { data } = await api.get(`/api/transaction/get/all`);
+        console.log("trans ",data)
+        dispatch({
+            type: GET_ALL_TRANSACTION_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_ALL_TRANSACTION_FAILURE,
+            payload: error.message,
+        });
+    }
+};
+export const searchTransaction = (uniqueId) => async (dispatch) => {
+    try {
+      
+        const { data } = await api.get(`/api/transaction/search/${uniqueId}`);
+        
+        dispatch({
+            type: SEARCH_TRANSACTION_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: SEARCH_TRANSACTION_FAILURE,
+            payload: error.message,
+        });
+    }
+};

@@ -43,12 +43,30 @@ public class UserController {
     }
 
     // get by id
-    @GetMapping("/get/{id}")
-    public ResponseEntity<UserDTO> getById(@PathVariable String id) {
+    @GetMapping("/getby/{id}")
+    public ResponseEntity<List<UserDTO>> getById(@PathVariable String id) {
+        
         Users user = userService.findUserByID(id);
         UserDTO userDTO = UserDTOmapper.mapToUserDTO(user);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        List<UserDTO> result = new ArrayList<>();
+        result.add(userDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    //get by name
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<UserDTO>> getByName(@PathVariable String keyword) {
+        
+        System.out.println("name "+keyword);
+        List<Users> users = userService.findUserByName(keyword);
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for (Users user : users) {
+            UserDTO userDTO = UserDTOmapper.mapToUserDTO(user);
+            userDTOs.add(userDTO);
+        }
+        return new ResponseEntity<>(userDTOs, HttpStatus.OK);
+    }
+
 
     // get profile
     @GetMapping("/profile")
@@ -72,6 +90,8 @@ public class UserController {
     //delete user
     @DeleteMapping("/profile/delete/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable String userId, @RequestHeader("Authorization") String jwt) {
+
+       
 
         try {
             userService.deleteUser(userId, jwt);
