@@ -63,6 +63,12 @@ public class DashboardTest {
 
     @Test
 public void testSearchFunctionality() {
+
+        try {
+            Thread.sleep(10000);  // Wait for 10 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     login();  // Log in before testing search functionality
 
     // Test search functionality
@@ -85,6 +91,11 @@ public void testSearchFunctionality() {
 
 @Test
 public void testBorrowBook() {
+    try {
+        Thread.sleep(10000);  // Wait for 10 seconds
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     login(); 
 
     // Wait for the search input to be visible
@@ -141,6 +152,11 @@ public void testBorrowBook() {
 
 @Test
 public void testReturnBookFunctionality() {
+    try {
+        Thread.sleep(10000);  // Wait for 10 seconds
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     login();  // Log in before testing return book functionality
 
     // Find the return book button and click it
