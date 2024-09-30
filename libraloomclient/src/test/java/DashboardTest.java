@@ -82,6 +82,63 @@ public void testSearchFunctionality() {
     // Verify search result is displayed
     assertTrue(searchResult.isDisplayed(), "Search results should be visible");
 }
+
+@Test
+public void testBorrowBook() {
+    login(); 
+
+    // Wait for the search input to be visible
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement searchInput = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.id("search-input"))
+    );
+
+    // Type a keyword in the search input to find books
+    searchInput.sendKeys("Test book");
+
+    // Wait for the search results to load
+    WebElement searchResults = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.id("book-displayer"))
+    );
+
+    // Find the first "Borrow" button within the search results
+    WebElement borrowButton = searchResults.findElement(By.xpath("//button[contains(text(), 'Borrow')]"));
+
+    // Click the "Borrow" button
+    borrowButton.click();
+
+    // Wait for the confirmation modal to appear
+    WebElement borrowConfirmationModal = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.id("book-borrow-confirmation"))
+    );
+
+    // Assert modal contents (e.g., book title, author)
+    WebElement modalTitle = borrowConfirmationModal.findElement(By.xpath("//h2[contains(text(), 'Do you want to borrow this book?')]"));
+    assertTrue(modalTitle.isDisplayed(), "Borrow confirmation modal title should be visible");
+
+    // Click the "Borrow" button inside the modal
+    WebElement modalBorrowButton = borrowConfirmationModal.findElement(By.id("borrow-button"));
+    modalBorrowButton.click();
+
+    // Optionally, handle SweetAlert pop-ups or modal confirmations
+    WebElement sweetAlertTitle = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(), 'Success!')]"))
+    );
+    WebElement sweetAlertText = wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Book borrowed successfully.')]"))
+    );
+
+    // Assert that the SweetAlert title and message are displayed
+    assertTrue(sweetAlertTitle.isDisplayed(), "SweetAlert success title should be visible");
+    assertTrue(sweetAlertText.isDisplayed(), "SweetAlert success message should be visible");
+
+
+    
+}
+
+
+
+
 @Test
 public void testReturnBookFunctionality() {
     login();  // Log in before testing return book functionality
@@ -113,4 +170,9 @@ public void testReturnBookFunctionality() {
     assertTrue(sweetAlertText.isDisplayed(), "SweetAlert success message should be visible");
 
 }
+
+
+
+
+
 }

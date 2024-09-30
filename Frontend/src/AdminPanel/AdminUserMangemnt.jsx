@@ -18,11 +18,10 @@ const UserManage = () => {
   const dispatch = useDispatch();
   const [searchBy, setSearchBy] = useState("name"); // Default search by name
 
-
   useEffect(() => {
     dispatch(findAllUsers());
     handleSearch();
-  }, [auth.deleteUser,auth]);
+  }, [auth.deleteUser, auth]);
 
   const fetchUsersByName = () => {
     dispatch(findUserByName(searchTerm));
@@ -39,7 +38,6 @@ const UserManage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteUser(userId));
         Swal.fire({
           title: "Deleted!",
           text: "Book has been deleted.",
@@ -47,9 +45,8 @@ const UserManage = () => {
         });
       }
     });
-    
-   
-   
+
+    dispatch(deleteUser(userId));
   };
 
   const fetchUsersById = () => {
@@ -81,6 +78,7 @@ const UserManage = () => {
       <div className="mb-4 flex pr-5 items-center justify-end">
         <label className="mr-4">
           <input
+            id="search-name"
             type="radio"
             value="name"
             checked={searchBy === "name"}
@@ -101,15 +99,16 @@ const UserManage = () => {
         </label>
       </div>
 
-      {/* Search Bar */}
+    
       <input
+        id="serach-input"
         type="text"
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
           handleSearch();
         }}
-        placeholder={`Search users by ${searchBy}...`}
+        placeholder={`Search users by name...`}
         className="w-full p-2 border border-gray-300 rounded-md mb-4"
       />
       <button
@@ -119,7 +118,7 @@ const UserManage = () => {
         Search
       </button>
 
-      {/* User List */}
+     
       <div className="h-[65vh] overflow-y-scroll border border-gray-300 rounded-md p-2">
         {searchTerm ? (
           auth.findUser ? (
@@ -176,6 +175,7 @@ const UserManage = () => {
                 </div>
 
                 <button
+                  id="delete-button"
                   className="bg-red-500 text-white px-2 py-1 rounded-md"
                   onClick={() => handleDelete(item.userId)}
                 >
@@ -189,63 +189,60 @@ const UserManage = () => {
         ) : (
           auth.allUsers?.map((item) => (
             <div className="flex justify-between items-center p-2 border-b-2 border-b-slate-300">
-            <div>
-              <h2>
-                <span className="font-semibold text-blue-700">Name : </span>
-                {item.name}
-              </h2>
-              <h2>
-                <span className="font-semibold text-blue-700">
-                  Email :{" "}
-                </span>
-                {item.email}
-              </h2>
-              <h2>
-                <span className="font-semibold text-blue-700">Role : </span>
-                {item.role}
-              </h2>
-              {item.incompleteTransaction ? (
-                <div>
-                  <h2>
-                    <span className="font-semibold text-blue-700">
-                      Incompleted Transactions{" "}
-                    </span>
-                  </h2>
-                  <h3>
-                    <span className="font-semibold ">
-                      Transactions Id :{" "}
-                    </span>
-                    {item.incompleteTransaction.transactionId}
-                  </h3>
-                  <h3>
-                    <span className="font-semibold ">Book : </span>
-                    {item.incompleteTransaction.book.title}
-                  </h3>
-                  <h3>
-                    <span className="font-semibold ">Due to : </span>
-                    {item.incompleteTransaction.dueDate}
-                  </h3>
-                  {item.incompleteTransaction.lateDates > 0 ? (
-                    <h3>
-                      <span className="font-semibold text-red-500">
-                        Late days:{" "}
+              <div>
+                <h2>
+                  <span className="font-semibold text-blue-700">Name : </span>
+                  {item.name}
+                </h2>
+                <h2>
+                  <span className="font-semibold text-blue-700">Email : </span>
+                  {item.email}
+                </h2>
+                <h2>
+                  <span className="font-semibold text-blue-700">Role : </span>
+                  {item.role}
+                </h2>
+                {item.incompleteTransaction ? (
+                  <div>
+                    <h2>
+                      <span className="font-semibold text-blue-700">
+                        Incompleted Transactions{" "}
                       </span>
-                      {item.incompleteTransaction.lateDates}
+                    </h2>
+                    <h3>
+                      <span className="font-semibold ">Transactions Id : </span>
+                      {item.incompleteTransaction.transactionId}
                     </h3>
-                  ) : null}
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
+                    <h3>
+                      <span className="font-semibold ">Book : </span>
+                      {item.incompleteTransaction.book.title}
+                    </h3>
+                    <h3>
+                      <span className="font-semibold ">Due to : </span>
+                      {item.incompleteTransaction.dueDate}
+                    </h3>
+                    {item.incompleteTransaction.lateDates > 0 ? (
+                      <h3>
+                        <span className="font-semibold text-red-500">
+                          Late days:{" "}
+                        </span>
+                        {item.incompleteTransaction.lateDates}
+                      </h3>
+                    ) : null}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
 
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded-md"
-              onClick={() => handleDelete(item.userId)}
-            >
-              Delete
-            </button>
-          </div>
+              <button
+                id="delete-button"
+                className="bg-red-500 text-white px-2 py-1 rounded-md"
+                onClick={() => handleDelete(item.userId)}
+              >
+                Delete
+              </button>
+            </div>
           ))
         )}
       </div>

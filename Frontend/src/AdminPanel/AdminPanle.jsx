@@ -70,6 +70,7 @@ function AdminPanel() {
          
           <div className="col-span-4">
             <div
+              id="user-management"
               onClick={() => navigate("/Admin/UserMangemnt")}
               className="cursor-pointer hover:bg-blue-100 transition p-4 rounded-lg "
             >
@@ -84,6 +85,7 @@ function AdminPanel() {
 
           <div className="col-span-4">
             <div
+             id="book-management"
               onClick={() => navigate("/Admin/BookManagemnt")}
               className="cursor-pointer hover:bg-blue-100 transition p-4 rounded-lg "
             >
@@ -93,6 +95,7 @@ function AdminPanel() {
 
           <div className="col-span-4">
             <div
+             id="tansaction-nav"
               onClick={() => navigate("/Admin/Transaction")}
               className="cursor-pointer hover:bg-blue-100 transition p-4 rounded-lg "
             >

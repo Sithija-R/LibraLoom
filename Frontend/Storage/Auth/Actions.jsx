@@ -1,4 +1,5 @@
 import axios from "axios";
+
 // import { API_BASE_URL, api } from "../../config/APIconfig"
 import {
   DELETE_USER_FAILURE,
@@ -23,6 +24,11 @@ import {
 } from "./ActionTypes";
 import Swal from "sweetalert2";
 import { API_BASE_URL, api } from "../../src/ApiConfig/Apiconfig";
+
+
+
+
+
 
 const successAlert = Swal.mixin({
   toast: true,
@@ -208,11 +214,13 @@ export const logOut = () => async (dispatch) => {
   localStorage.clear();
 
   dispatch({ type: LOGOUT, payload: null });
+
 };
 
 export const deleteUser = (userId) => async (dispatch) => {
   try {
     const { data } = await api.delete(`/api/user/profile/delete/${userId}`);
+
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {

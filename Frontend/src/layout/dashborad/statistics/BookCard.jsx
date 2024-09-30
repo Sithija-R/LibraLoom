@@ -38,6 +38,11 @@ export const BookCard = ({ item }) => {
       const transactionData = { userId: auth.user?.userId, isbn: item?.isbn };
 
       handleClose();
+      Swal.fire({
+        title: "Success!",
+        text: "Book borrowed successfully.",
+        icon: "success",
+      });
       dispatch(borrowBook(transactionData));
     }
   };
@@ -91,6 +96,7 @@ export const BookCard = ({ item }) => {
         )}
       </div>
       <Modal
+      id="book-borrow-confirmation"
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -134,6 +140,7 @@ export const BookCard = ({ item }) => {
             </Button>
 
             <Button
+            id="borrow-button"
               onClick={handleBorrow}
               sx={{
                 width: "8%",

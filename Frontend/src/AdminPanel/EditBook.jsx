@@ -80,7 +80,7 @@ const EditBook = ({ item, handleClose }) => {
 
         <div>
           <Button type="submit" variant="contained" color="primary">
-            Edit Book
+            Save
           </Button>
           <Button onClick={handleClose} variant="outlined" color="secondary" style={{ marginLeft: '10px' }}>
             Cancel

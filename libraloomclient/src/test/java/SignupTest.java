@@ -113,6 +113,34 @@ public class SignupTest {
                 "Error message for short password should be visible.");
     }
 
+    @Test
+    public void testSignupWithExistingEmail() {
+        driver.get("http://localhost:5173/Authentication/signup");
+    
+        // Fill in the signup form with an existing email
+        driver.findElement(By.id("name")).sendKeys("Test User");
+        driver.findElement(By.id("email")).sendKeys("testuser@example.com"); // Assuming this email is already registered
+        driver.findElement(By.id("password")).sendKeys("password123");
+    
+        // Submit the form
+        driver.findElement(By.id("signup-button")).click();
+    
+        // Wait for the SweetAlert title and text to become visible
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement sweetAlertTitle = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(), 'Signup failed!')]")) // Adjust if needed
+        );
+        WebElement sweetAlertText = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Email is already exist')]")) // Adjust if needed
+        );
+    
+        // Assert that the SweetAlert title and text are visible
+        assertTrue(sweetAlertTitle.isDisplayed(), "SweetAlert error title should be visible");
+        assertTrue(sweetAlertText.isDisplayed(), "SweetAlert error message should be visible");
+    }
+    
+
+
     @AfterEach
     public void tearDown() {
         if (driver != null) {
@@ -120,3 +148,5 @@ public class SignupTest {
         }
     }
 }
+
+
