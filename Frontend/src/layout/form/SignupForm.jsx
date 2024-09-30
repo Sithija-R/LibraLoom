@@ -18,11 +18,14 @@ const SignupForm = () => {
 
 const dispatch = useDispatch();
 
-  const donorValidationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is Required"),
-    email: Yup.string().email("Invalid email").required("Email is Required"),
-    password: Yup.string().required("Password is Required"),
-  });
+const donorValidationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is Required"),
+  email: Yup.string().email("Invalid email").required("Email is Required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is Required"),
+});
+
 
   const handleFormSubmit=(values)=>{
 

@@ -37,44 +37,34 @@ const successAlert = Swal.mixin({
 });
 
 //signup
-//signup
-export const register = (registerData) => async (dispatch) => {
-  console.log(registerData);
-  try {
-    const { data } = await axios.post(
-      `${API_BASE_URL}/auth/signup`,
-      registerData
-    );
+export const register =(registerData)=>async(dispatch)=>{
+    console.log(registerData)
+    try {
+        const {data} = await axios.post(`${API_BASE_URL}/auth/signup`,registerData);
 
-    // Show success alert immediately
-    Swal.fire({
-      title: "Signup failedSigned up successfully",
-      text: "",
-      icon: "success",
-    });
-
-    // Store JWT after 2 seconds
-    if (data.jwt) {
-      setTimeout(() => {
-        localStorage.setItem("jwt", data.jwt);
-      }, 5000); // 2000 milliseconds = 2 seconds
+        successAlert.fire({
+            icon: "success",
+            title: "Signed up successfully"
+          });
+          
+        
+       
+        if(data.jwt){
+            localStorage.setItem("jwt",data.jwt)
+        }
+        dispatch({type:REGISTER_USER_SUCCESS,payload:data})
+        
+    } catch (error) {
+        console.log("error",error);
+        dispatch({type:REGISTER_USER_FAILURE,payload:error.response.data.message})
+        Swal.fire({
+            title: "Signup failed!",
+            text: error.response.data.message,
+            icon: "error"
+          });
+        
     }
-
-    dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
-  } catch (error) {
-    console.log("error", error);
-    dispatch({
-      type: REGISTER_USER_FAILURE,
-      payload: error.response.data.message,
-    });
-
-    Swal.fire({
-      title: "Signup failed!",
-      text: error.response.data.message,
-      icon: "error",
-    });
-  }
-};
+}
 
 
 //login

@@ -15,8 +15,8 @@ import { getUserProfile } from "../../Storage/Auth/Actions";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
-function Dashboard() {
 
+function Dashboard() {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const { auth, book } = useSelector((store) => store);
@@ -59,6 +59,7 @@ function Dashboard() {
     dispatch(returnBook(data));
     handleClose();
     Swal.fire({
+      
       title: "Success!",
       text: "successfully returned.",
       icon: "success",
@@ -67,9 +68,10 @@ function Dashboard() {
 
   return (
     <main>
-      <div className="px-4 h-[92vh]  sm:px-6 lg:px-8 pt-5 w-full max-w-9xl mx-auto">
-        <div className="mb-2 flex items-center justify-end ">
+      <div id="dashboard-container" className="px-4 h-[92vh] sm:px-6 lg:px-8 pt-5 w-full max-w-9xl mx-auto">
+        <div className="mb-2 flex items-center justify-end">
           <input
+            id="search-input"
             type="text"
             className="w-80 rounded-3xl"
             onChange={(event) => {
@@ -77,17 +79,19 @@ function Dashboard() {
               handleSearch(); // Trigger search on every change
             }}
           />
-
           <SearchIcon
+            id="search-icon"
             onClick={handleSearch}
             className="text-slate-400 cursor-pointer hover:text-blue-600"
             sx={{ fontSize: 50 }}
           />
         </div>
+
         <WelcomeBanner />
 
         <div className="grid grid-cols-12 gap-6">
           <div
+            id="borrowed-book-section"
             className={`flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700`}
           >
             <div className="py-2 px-5">
@@ -119,6 +123,7 @@ function Dashboard() {
                   </div>
                   <div className="flex justify-end items-center">
                     <Button
+                      id="return-button"
                       onClick={handleOpen}
                       sx={{
                         width: "8%",
@@ -143,33 +148,31 @@ function Dashboard() {
           </div>
           <Total Icon={Icon2} title1="A room without books is like a body without a soul." total="Marcus Tullius Cicero" />
           <Total Icon={Icon3} title1="There is no friend as loyal as a book." total="Ernest Hemingway" />
-
-
         </div>
-        {keyword? (
-          <div>
+
+        {keyword ? (
+          <div id="book-displayer">
             <h2 className="mt-2 font-semibold text-lg">Search Results..</h2>
-            <div className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
-              {book.bookSearchResult?(
-                book.bookSearchResult.map((item) => (
-                  <BookCard item={item} />
-                ))
-              ):("No books available!")}
+            <div id="search-results" className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
+              {book.bookSearchResult ? (
+                book.bookSearchResult.map((item) => <BookCard key={item.isbn} item={item} />)
+              ) : (
+                "No books available!"
+              )}
             </div>
           </div>
         ) : (
           <div>
             <h2 className="mt-2 font-semibold text-lg">All Books</h2>
-            <div className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
-              {book.books?.map((item) => (
-                <BookCard item={item} />
-              ))}
+            <div id="all-books" className="h-[40vh] overflow-y-scroll mt-4 space-y-2">
+              {book.books?.map((item) => <BookCard key={item.isbn} item={item} />)}
             </div>
           </div>
         )}
       </div>
 
       <Modal
+      id="return-confirm"
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -181,13 +184,13 @@ function Dashboard() {
           </Typography>
           <div>
             <h2 className="text-lg mt-5 font-semibold text-blue-800">
-              {" "}
               {auth.user?.incompleteTransaction?.book.title}
             </h2>
             <h2>{auth.user?.incompleteTransaction?.book.author}</h2>
           </div>
           <div className="mt-8 flex space-x-3 justify-end">
             <Button
+              id="cancel-return-button"
               onClick={handleClose}
               sx={{
                 width: "8%",
@@ -199,7 +202,6 @@ function Dashboard() {
                 xs: "1",
                 fontSize: 13,
                 backgroundColor: "rgba(255, 0, 0, 0.9)",
-
                 color: "white",
                 "&:hover": {
                   backgroundColor: "rgba(255, 0, 0, 0.8)",
@@ -212,6 +214,7 @@ function Dashboard() {
             </Button>
 
             <Button
+              id="confirm-return-button"
               onClick={handleReturn}
               sx={{
                 width: "8%",
