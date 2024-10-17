@@ -65,7 +65,7 @@ public class AuthControllerTest {
         Users reqUser = new Users();
         reqUser.setEmail("test@example.com");
         reqUser.setPassword("password123");
-        reqUser.setName("Test User");
+        reqUser.setName("Test User1");
         reqUser.setRole("USER");
 
         when(userService.findUserByEmail("test@example.com")).thenReturn(null);
